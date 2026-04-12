@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CoinPulse
+
+A crypto scanner app with a built-in high frequency terminal and dashboard.
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Monorepo | Turborepo + Bun workspaces |
+| Frontend | Next.js 16, React 19, Tailwind CSS v4, shadcn/ui |
+| Backend | .NET 10 Web API (Minimal API) |
+
+## Prerequisites
+
+- [Bun](https://bun.sh) >= 1.0
+- [.NET SDK](https://dotnet.microsoft.com) >= 10.0
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start both apps simultaneously:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This opens Turborepo's terminal UI with a pane for each app. Use arrow keys to switch panes, `q` to quit.
 
-## Learn More
+| App | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| API | https://localhost:5001 |
+| OpenAPI docs | https://localhost:5001/openapi/v1.json |
 
-To learn more about Next.js, take a look at the following resources:
+## Running Apps Individually
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend (`apps/web`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd apps/web
+bun run dev      # http://localhost:3000
+bun run build    # production build
+bun run start    # serve production build
+bun run lint     # lint
+bun run clean    # delete .next/
+```
 
-## Deploy on Vercel
+### Backend (`apps/api`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+cd apps/api
+dotnet run                            # https://localhost:5001
+dotnet run --launch-profile http      # http only, http://localhost:5000
+dotnet build                          # debug build
+dotnet build --configuration Release  # release build
+dotnet restore                        # restore NuGet packages
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+You can also scope turbo to a single app from the root without `cd`:
+
+```bash
+bun run dev --filter=@coinpulse/web
+bun run dev --filter=@coinpulse/api
+bun run build --filter=@coinpulse/web
+```
+
+## Other Commands
+
+```bash
+bun run build   # build all apps
+bun run lint    # lint all apps
+```
+
+## Project Structure
+
+```
+apps/
+  web/    Next.js frontend
+  api/    .NET Web API backend
+packages/ shared packages
+```
