@@ -3,11 +3,21 @@ import { formatCurrency } from "@/lib/utils";
 import { CoinDetailsData } from "@/type";
 import Image from "next/image";
 import React from "react";
+import { CoinOverviewFallback } from "./fallback";
 
 const CoinOverview = async () => {
-  const coin = await fetcher<CoinDetailsData>("coins/bitcoin", {
-    dex_pair_format: "symbol",
-  });
+
+  let coin;
+  try {
+    coin = await fetcher<CoinDetailsData>("coins/bitcoin", {
+      dex_pair_format: "symbol",
+    });
+
+    console.log(coin);
+  } catch (error) {
+    console.error("Failed to fetch coin details:", error);
+    return <CoinOverviewFallback />;
+  }
 
   return (
     <div id="coin-overview">
