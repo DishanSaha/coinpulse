@@ -57,7 +57,7 @@ const CandleStickChart = ({
 
     await fetchOHLCData(newPeriod);
     startTransition(() => {
-      // setLoading(true);
+      setLoading(true);
       setPeriod(newPeriod);
     });
   };
@@ -78,7 +78,7 @@ const CandleStickChart = ({
     chartRef.current = chart;
     candleSeriesRef.current = series;
 
-    // ✅ এখানে data set করো
+    //Set data here------
     if (ohlcData?.length) {
       const convertedToSeconds = ohlcData.map(
         (item) =>
@@ -112,71 +112,7 @@ const CandleStickChart = ({
       chartRef.current = null;
       candleSeriesRef.current = null;
     };
-  }, [height, period, ohlcData]); // ✅ ohlcData add করো
-
-  // useEffect(() => {
-  //   const container = chartContainerRef.current;
-  //   if (!container) return;
-
-  //   const showTime = ["hourly", "daily", "weekly"].includes(period);
-
-  //   const chart = createChart(container, {
-  //     ...getChartConfig(height, showTime),
-  //     width: container.clientWidth,
-  //   });
-  //   const series = chart.addSeries(CandlestickSeries, getCandlestickConfig());
-
-  //   const convertedToSeconds = ohlcData.map(
-  //     (item) =>
-  //       [
-  //         Math.floor(item[0] / 1000),
-  //         item[1],
-  //         item[2],
-  //         item[3],
-  //         item[4],
-  //       ] as OHLCData,
-  //   );
-
-  //   series.setData(convertOHLCData(convertedToSeconds));
-
-  //   chart.timeScale().fitContent();
-  //   chartRef.current = chart;
-  //   candleSeriesRef.current = series;
-
-  //   const observer = new ResizeObserver((entries) => {
-  //     if (!entries.length) return;
-  //     chart.applyOptions({ width: entries[0].contentRect.width });
-  //   });
-
-  //   observer.observe(container);
-  //   return () => {
-  //     observer.disconnect();
-  //     chart.remove();
-  //     chartRef.current = null;
-  //     candleSeriesRef.current = null;
-  //   };
-  // }, [height, period]);
-
-  // useEffect(() => {
-  //   if (!ohlcData?.length) return;
-  //   if (!candleSeriesRef.current) return;
-
-  //   const convertedToSeconds = ohlcData.map(
-  //     (item) =>
-  //       [
-  //         Math.floor(item[0] / 1000),
-  //         item[1],
-  //         item[2],
-  //         item[3],
-  //         item[4],
-  //       ] as OHLCData,
-  //   );
-
-  //   const converted = convertOHLCData(convertedToSeconds);
-
-  //   candleSeriesRef.current.setData(converted);
-  //   chartRef.current?.timeScale().fitContent();
-  // }, [ohlcData]);
+  }, [height, period, ohlcData]); //ohlcData add
 
   return (
     <div id="candlestick-chart">
