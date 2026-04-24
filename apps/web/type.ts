@@ -1,6 +1,6 @@
 import React from "react";
 
-type OHLCData = [number, number, number, number, number];
+export type OHLCData = [number, number, number, number, number];
 
 export interface NextPageProps {
   params: Promise<{ [key: string]: string }>;
