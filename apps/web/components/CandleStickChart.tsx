@@ -52,6 +52,7 @@ const CandleStickChart = ({
     },
     [coinId],
   );
+  
   const handlePeriodChange = async (newPeriod: Period) => {
     if (newPeriod === period) return;
 
