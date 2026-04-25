@@ -3,16 +3,15 @@ import { DataTableColumn, TrendingCoin } from "@/type";
 import Datatable from "../Datatable";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, formatPercentage } from "@/lib/utils";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { TrendingCoinsFallback } from "./fallback";
 
 const TrendingCoins = async () => {
-
   let trendingCoins;
   try {
     trendingCoins = await fetcher<{ coins: TrendingCoin[] }>(
-      "search/trending",
+      "/search/trending",
       undefined,
       60,
     );
@@ -49,14 +48,13 @@ const TrendingCoins = async () => {
               isTrendingUp ? "text-green-500" : "text-red-500",
             )}
           >
-            <p>
+            <p className="flex items-center">
+              {formatPercentage(item.data.price_change_percentage_24h.usd)}
               {isTrendingUp ? (
                 <TrendingUp width={16} height={16} />
               ) : (
                 <TrendingDown width={16} height={16} />
               )}
-              {Math.abs(item.data.price_change_percentage_24h.usd).toFixed(2) +
-                "%"}
             </p>
           </div>
         );
@@ -77,7 +75,7 @@ const TrendingCoins = async () => {
         columns={columns}
         rowKey={(row) => row.item.id}
         tableClassName="trending-coins-table"
-        headerCellClassName="py-3!"
+        headerCellClassName="py-3"
         bodyCellClassName="py-2"
       />
     </div>
